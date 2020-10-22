@@ -1,4 +1,4 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+import Quiz from './Quiz.vue'
 
-createApp(App).mount('#app')
+createApp(Quiz).mount('#app')
