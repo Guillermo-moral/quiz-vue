@@ -1,7 +1,7 @@
 <template>
   <div class="question">
     <div class="categoria">
-      <p></p>
+      <p>{{questions.category}}</p>
     </div>
     <h2 class="pregunta"></h2>
     <div class="respuestas">
@@ -21,7 +21,7 @@
         <input type="radio" name="respuesta" value="4" id="respuesta-4">
         <label for="respuesta-4"></label>
       </div>
-      <button @click="click">Submit</button>
+      <button >Submit</button>
     </div>
     <div class="control-preguntas">
 

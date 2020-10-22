@@ -4,7 +4,6 @@
   <Question
     v-if="!isConfig"
     :questions="questions"
-    :prueba="prueba"
   />
 </template>
 
@@ -22,7 +21,6 @@ export default {
     return {
       isConfig: true,
       questions: [],
-      prueba: ''
     }
   },
   methods: {
@@ -31,9 +29,10 @@ export default {
       fetch(url)
         .then(res => res.json())
         .then(data => {
-          this.questions = data;
+          this.questions.results = data;
           this.isConfig = false;
-          console.log(this.questions.results);
+          console.log(data.results[0].category);
+          console.log(this.questions);
         })
     }
   }
