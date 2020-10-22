@@ -6,6 +6,7 @@
 <script>
 import ConfigGame from './components/ConfigGame.vue'
 
+
 export default {
   name: 'Quiz',
   components: {
@@ -13,8 +14,10 @@ export default {
   },
   methods: {
     fetchQuestions(config) {
+      console.log(config.numQuestions);
       console.log(config);
-      fetch(`https://opentdb.com/api.php?amount=${config.numQuestions}&type=multiple&difficulty=${config.difficulty}&category=${config.category}`)
+      //console.log(config);
+      fetch(`https://opentdb.com/api.php?amount=${config.numQuestions}&category=${config.category}&difficulty=${config.difficulty}&type=multiple`)
         .then(res => res.json())
         .then(data => console.log(data))
     }

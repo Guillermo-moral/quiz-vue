@@ -1,23 +1,19 @@
 <template>
   <form class="configuracion" @submit.prevent="onSubmit">
     <label for="dificultad">Difficulty</label>
-    <select name="dificultad">
-      <option value="" selected>Cualquiera</option>
-      <option value="easy" >Facil</option>
-      <option value="medium">Normal</option>
-      <option value="hard">Dificil</option>
+    <select name="dificultad" v-model="config.difficulty">
+      <option value="" selected>Select difficulty</option>
+      <option v-for="(item, index) in difficulty" :key="index">{{ item.content }}</option>
     </select>
 
-    <label for="numPreguntas">Number of questions</label>
-    <select name="numPreguntas">
-      <option value="5" selected>5</option>
-      <option value="10">10</option>
-      <option value="15">15</option>
+    <label for="numQuestions">Number of questions</label>
+    <select name="numQuestions" v-model="config.numQuestions">
+      <option value="" selected>Select questions</option>
+      <option v-for="(item, index) in numQuestions" :key="index">{{ item }}</option>
     </select>
 
-    <label for="categorias">Category</label>
-    <select name="categorias" v-model="config.category">
-        
+    <label for="category">Category</label>
+    <select name="category" v-model="config.category">
       <option
         v-for="(category, index) in categories"
         :key="index"
@@ -32,16 +28,6 @@
 <script>
 export default {
   name: 'ConfigGame',
-  methods: {
-    onSubmit() {
-      let config = {
-        difficulty: this.config.difficulty,
-        numQuestions: this.config.numQuestions,
-        category:this.config.category
-      }
-      this.$emit('config-submitted', config)
-    }
-  },
   data(){
     return {
       config: {
@@ -49,7 +35,12 @@ export default {
         numQuestions: '',
         category:''
       },
-      difficulty: ['easy', 'medium', 'hard'],
+      difficulty: [
+        { value: '', content: 'Any' },
+        { value: 'easy', content: 'Easy' },
+        { value: 'medium', content: 'Medium' },
+        { value: 'hard', content: 'Hard' },
+      ],
       numQuestions: [5, 10, 15],
       categories: [
         { value: '', category: 'Any Category'},
@@ -78,6 +69,16 @@ export default {
         { value:'31', category: 'Entertainment: Japanese Anime & Manga'},
         { value:'32', category: 'Entertainment: Cartoon & Animations'}
       ]
+    }
+  },
+  methods: {
+    onSubmit() {
+      let config = {
+        difficulty: this.config.difficulty.toLowerCase(),
+        numQuestions: this.config.numQuestions,
+        category:this.config.category
+      }
+      this.$emit('config-submitted', config)
     }
   }
 }
