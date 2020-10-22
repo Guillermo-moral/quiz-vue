@@ -1,5 +1,5 @@
 <template>
-  <form class="configuracion">
+  <form class="configuracion" @submit.prevent="onSubmit">
     <label for="dificultad">Difficulty</label>
     <select name="dificultad">
       <option value="" selected>Cualquiera</option>
@@ -16,32 +16,14 @@
     </select>
 
     <label for="categorias">Category</label>
-    <select name="categorias">
-      <option value="" selected>Any Category</option>
-      <option value="9">General Knowledge</option>
-      <option value="10">Entertainment: Books</option>
-      <option value="11">Entertainment: Film</option>
-      <option value="12">Entertainment: Music</option>
-      <option value="13">Entertainment: Musicals &amp; Theatres</option>
-      <option value="14">Entertainment: Television</option>
-      <option value="15">Entertainment: Video Games</option>
-      <option value="16">Entertainment: Board Games</option>
-      <option value="17">Science & Nature</option>
-      <option value="18">Science: Computers</option>
-      <option value="19">Science: Mathematics</option>
-      <option value="20">Mythology</option>
-      <option value="21">Sports</option>
-      <option value="22">Geography</option>
-      <option value="23">History</option>
-      <option value="24">Politics</option>
-      <option value="25">Art</option>
-      <option value="26">Celebrities</option>
-      <option value="27">Animals</option>
-      <option value="28">Vehicles</option>
-      <option value="29">Entertainment: Comics</option>
-      <option value="30">Science: Gadgets</option>
-      <option value="31">Entertainment: Japanese Anime & Manga</option>
-      <option value="32">Entertainment: Cartoon & Animations</option>
+    <select name="categorias" v-model="config.category">
+        
+      <option
+        v-for="(category, index) in categories"
+        :key="index"
+        :value="category.value">
+        {{ category.category }}
+      </option>
     </select>
     <button>Let's play!</button>
   </form>
@@ -50,20 +32,70 @@
 <script>
 export default {
   name: 'ConfigGame',
+  methods: {
+    onSubmit() {
+      let config = {
+        difficulty: this.config.difficulty,
+        numQuestions: this.config.numQuestions,
+        category:this.config.category
+      }
+      this.$emit('config-submitted', config)
+    }
+  },
+  data(){
+    return {
+      config: {
+        difficulty: '',
+        numQuestions: '',
+        category:''
+      },
+      difficulty: ['easy', 'medium', 'hard'],
+      numQuestions: [5, 10, 15],
+      categories: [
+        { value: '', category: 'Any Category'},
+        { value:'9', category: 'General Knowledge'},
+        { value:'10', category: 'Entertainment: Books'},
+        { value:'11', category: 'Entertainment: Film'},
+        { value:'12', category: 'Entertainment: Music'},
+        { value:'13', category: 'Entertainment: Musicals &amp; Theatre'},
+        { value:'14', category: 'Entertainment: Television'},
+        { value:'15', category: 'Entertainment: Video Games'},
+        { value:'16', category: 'Entertainment: Board Games'},
+        { value:'17', category: 'Science & Nature'},
+        { value:'18', category: 'Science: Computers'},
+        { value:'19', category: 'Science: Mathematics'},
+        { value:'20', category: 'Mythology'},
+        { value:'21', category: 'Sports'},
+        { value:'22', category: 'Geography'},
+        { value:'23', category: 'History'},
+        { value:'24', category: 'Politics'},
+        { value:'25', category: 'Art'},
+        { value:'26', category: 'Celebrities'},
+        { value:'27', category: 'Animals'},
+        { value:'28', category: 'Vehicles'},
+        { value:'29', category: 'Entertainment: Comics'},
+        { value:'30', category: 'Science: Gadgets'},
+        { value:'31', category: 'Entertainment: Japanese Anime & Manga'},
+        { value:'32', category: 'Entertainment: Cartoon & Animations'}
+      ]
+    }
+  }
 }
 </script>
 
-<style>
-.configuracion {
-  width: 500px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 30px 30px 0;
-  border: 1px solid #ddd;
-}
+<style scoped>
 
-.configuracion select {
-  margin-bottom: 10px;
-}
+  .configuracion {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 30px;
+    border: 1px solid #ddd;
+  }
+
+  .configuracion select {
+    margin-bottom: 10px;
+  }
+
 </style>
