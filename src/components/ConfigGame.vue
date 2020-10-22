@@ -2,14 +2,22 @@
   <form class="configuracion" @submit.prevent="onSubmit">
     <label for="dificultad">Difficulty</label>
     <select name="dificultad" v-model="config.difficulty">
-      <option value="" selected>Select difficulty</option>
-      <option v-for="(item, index) in difficulty" :key="index">{{ item.content }}</option>
+      <option
+        v-for="(item, index) in difficulty"
+        :key="index"
+        :value="item.value">
+        {{ item.content }}
+      </option>
     </select>
 
     <label for="numQuestions">Number of questions</label>
     <select name="numQuestions" v-model="config.numQuestions">
-      <option value="" selected>Select questions</option>
-      <option v-for="(item, index) in numQuestions" :key="index">{{ item }}</option>
+      <option
+        v-for="(item, index) in numQuestions"
+        :key="index"
+        :value="item.value">
+        {{ item.content }}
+      </option>
     </select>
 
     <label for="category">Category</label>
@@ -18,7 +26,7 @@
         v-for="(category, index) in categories"
         :key="index"
         :value="category.value">
-        {{ category.category }}
+        {{ category.content }}
       </option>
     </select>
     <button>Let's play!</button>
@@ -36,43 +44,51 @@ export default {
         category:''
       },
       difficulty: [
-        { value: '', content: 'Any' },
+        { value: '', content: 'Select difficulty' },
         { value: 'easy', content: 'Easy' },
         { value: 'medium', content: 'Medium' },
         { value: 'hard', content: 'Hard' },
       ],
-      numQuestions: [5, 10, 15],
+      numQuestions: [
+        { value: '', content: 'Select questions' },
+        { value: 5, content: '5' },
+        { value: 10, content: '10' },
+        { value: 15, content: '15' },
+      ],
       categories: [
-        { value: '', category: 'Any Category'},
-        { value:'9', category: 'General Knowledge'},
-        { value:'10', category: 'Entertainment: Books'},
-        { value:'11', category: 'Entertainment: Film'},
-        { value:'12', category: 'Entertainment: Music'},
-        { value:'13', category: 'Entertainment: Musicals &amp; Theatre'},
-        { value:'14', category: 'Entertainment: Television'},
-        { value:'15', category: 'Entertainment: Video Games'},
-        { value:'16', category: 'Entertainment: Board Games'},
-        { value:'17', category: 'Science & Nature'},
-        { value:'18', category: 'Science: Computers'},
-        { value:'19', category: 'Science: Mathematics'},
-        { value:'20', category: 'Mythology'},
-        { value:'21', category: 'Sports'},
-        { value:'22', category: 'Geography'},
-        { value:'23', category: 'History'},
-        { value:'24', category: 'Politics'},
-        { value:'25', category: 'Art'},
-        { value:'26', category: 'Celebrities'},
-        { value:'27', category: 'Animals'},
-        { value:'28', category: 'Vehicles'},
-        { value:'29', category: 'Entertainment: Comics'},
-        { value:'30', category: 'Science: Gadgets'},
-        { value:'31', category: 'Entertainment: Japanese Anime & Manga'},
-        { value:'32', category: 'Entertainment: Cartoon & Animations'}
+        { value: '', content: 'Any Category'},
+        { value:'9', content: 'General Knowledge'},
+        { value:'10', content: 'Entertainment: Books'},
+        { value:'11', content: 'Entertainment: Film'},
+        { value:'12', content: 'Entertainment: Music'},
+        { value:'13', content: 'Entertainment: Musicals &amp; Theatre'},
+        { value:'14', content: 'Entertainment: Television'},
+        { value:'15', content: 'Entertainment: Video Games'},
+        { value:'16', content: 'Entertainment: Board Games'},
+        { value:'17', content: 'Science & Nature'},
+        { value:'18', content: 'Science: Computers'},
+        { value:'19', content: 'Science: Mathematics'},
+        { value:'20', content: 'Mythology'},
+        { value:'21', content: 'Sports'},
+        { value:'22', content: 'Geography'},
+        { value:'23', content: 'History'},
+        { value:'24', content: 'Politics'},
+        { value:'25', content: 'Art'},
+        { value:'26', content: 'Celebrities'},
+        { value:'27', content: 'Animals'},
+        { value:'28', content: 'Vehicles'},
+        { value:'29', content: 'Entertainment: Comics'},
+        { value:'30', content: 'Science: Gadgets'},
+        { value:'31', content: 'Entertainment: Japanese Anime & Manga'},
+        { value:'32', content: 'Entertainment: Cartoon & Animations'}
       ]
     }
   },
   methods: {
     onSubmit() {
+      if(this.config.numQuestions == '') {
+        this.config.numQuestions = 5
+      }
       let config = {
         difficulty: this.config.difficulty.toLowerCase(),
         numQuestions: this.config.numQuestions,
