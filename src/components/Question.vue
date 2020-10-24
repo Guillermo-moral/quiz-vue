@@ -1,27 +1,15 @@
 <template>
   <div class="question">
-    <div class="categoria" v-if="isCurrentQuestion">
-      <p v-for="(question, index) in questions" :key="index">{{ question.category }}</p>
+    <div class="categoria">
+      <p>{{ question.category }}</p>
     </div>
-    <h2 class="pregunta"></h2>
+    <h2 class="pregunta">{{ question.question }}</h2>
     <div class="respuestas">
-      <div class="respuesta">
+      <div class="respuesta" v-for="(answer, index) in answers" :key="index">
         <input type="radio" name="respuesta" value="1" id="respuesta-1">
-        <label for="respuesta-1"></label>
+        <label for="respuesta-1">{{ answer }}</label>
       </div>
-      <div class="respuesta">
-        <input type="radio" name="respuesta" value="2" id="respuesta-2">
-        <label for="respuesta-2"></label>
-      </div>
-      <div class="respuesta">
-        <input type="radio" name="respuesta" value="3" id="respuesta-3">
-        <label for="respuesta-3"></label>
-      </div>
-      <div class="respuesta">
-        <input type="radio" name="respuesta" value="4" id="respuesta-4">
-        <label for="respuesta-4"></label>
-      </div>
-      <button >Submit</button>
+      <button @click="submitAnswer">Submit</button>
     </div>
     <div class="control-preguntas">
 
@@ -33,16 +21,20 @@
 export default {
   name:'Question',
   props: {
-    questions: Object,
+    question: Object,
   },
   data() {
-    return {
-      currentQuestion: 0
-    }
+    return {}
   },
   computed: {
-    isCurrentQuestion(index) {
-      return index == this.currentQuestion
+    answers() {
+      return this.question.incorrect_answers.concat(this.question.correct_answer)
+    }
+  },
+  methods: {
+    submitAnswer() {
+      this.$emit('answer-submitted')
+      console.log('submitAnswer');
     }
   }
   

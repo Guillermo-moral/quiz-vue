@@ -3,14 +3,16 @@
   <ConfigGame v-if="isConfig" @config-submitted="fetchQuestions" />
   <Question
     v-if="!isConfig"
-    :questions="questions"
+    :question="currentQuestion"
+    @answer-submitted="checkAnswer"
   />
 </template>
 
 <script>
 import ConfigGame from './components/ConfigGame.vue'
-import Question from './components/Question.vue';
+import Question from './components/Question.vue'
 import axios from 'axios'
+
 export default {
   name: 'Quiz',
   components: {
@@ -21,6 +23,8 @@ export default {
     return {
       isConfig: true,
       questions: {},
+      currentQuestion: {},
+      counterQuestions:0
     }
   },
   methods: {
@@ -28,19 +32,19 @@ export default {
       let url = `https://opentdb.com/api.php?amount=${config.numQuestions}&category=${config.category}&difficulty=${config.difficulty}&type=multiple`;
       axios.get(url).then(res => {
         this.questions = res.data.results
-        console.log(this.questions);
+        console.log(this.questions)
         this.isConfig = false
+        this.currentQuestion = this.questions[this.counterQuestions]
         })
-      // fetch(url)
-      //   .then(res => res.json())
-      //   .then(data => {
-      //     this.questions.results = data;
-      //     this.isConfig = false;
-      //     console.log(data.results[0].category);
-      //     console.log(this.questions);
-      //   })
+    },
+    checkAnswer() {
+      this.counterQuestions++
+      this.currentQuestion = this.questions[this.counterQuestions]
+      console.log('checkAnswer');
+      console.log(this.counterQuestions);
     }
-  }
+  },
+
 }
 </script>
 
