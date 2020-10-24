@@ -1,7 +1,7 @@
 <template>
   <div class="question">
-    <div class="categoria">
-      <p>{{questions.category}}</p>
+    <div class="categoria" v-if="isCurrentQuestion">
+      <p v-for="(question, index) in questions" :key="index">{{ question.category }}</p>
     </div>
     <h2 class="pregunta"></h2>
     <div class="respuestas">
@@ -37,9 +37,13 @@ export default {
   },
   data() {
     return {
+      currentQuestion: 0
     }
   },
-  methods: {
+  computed: {
+    isCurrentQuestion(index) {
+      return index == this.currentQuestion
+    }
   }
   
 }
