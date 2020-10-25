@@ -2,9 +2,9 @@
   <h1>Quiz App</h1>
   <ConfigGame v-if="isConfig" @config-submitted="fetchQuestions" />
   <Question
-    v-if="!isConfig"
+    v-if="isConfig"
     :question="currentQuestion"
-    @answer-submitted="checkAnswer"
+    @answer-submitted="nextAnswer"
   />
 </template>
 
@@ -21,11 +21,14 @@ export default {
   },
   data() {
     return {
-      isConfig: true,
+      isConfig: false,
       questions: {},
       currentQuestion: {},
       counterQuestions:0
     }
+  },
+  watch: {
+
   },
   methods: {
     fetchQuestions(config) {
@@ -33,11 +36,11 @@ export default {
       axios.get(url).then(res => {
         this.questions = res.data.results
         console.log(this.questions)
-        this.isConfig = false
+        this.isConfig = true
         this.currentQuestion = this.questions[this.counterQuestions]
         })
     },
-    checkAnswer() {
+    nextAnswer() {
       this.counterQuestions++
       this.currentQuestion = this.questions[this.counterQuestions]
       console.log('checkAnswer');
