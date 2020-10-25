@@ -6,8 +6,15 @@
     <h2 class="pregunta">{{ question.question }}</h2>
     <div class="respuestas">
       <div class="respuesta" v-for="(answer, index) in answers" :key="index">
-        <input type="radio" name="respuesta" value="1" id="respuesta-1">
-        <label for="respuesta-1">{{ answer }}</label>
+        <input type="radio" name="respuesta"
+          :value="answer"
+          :id="index"
+          v-model="selected"
+          @change="change">
+        <label
+          :for="index">
+          {{ answer }}
+        </label>
       </div>
       <button @click="submitAnswer">Submit</button>
     </div>
@@ -24,20 +31,32 @@ export default {
     question: Object,
   },
   data() {
-    return {}
+    return {
+      selected: ''
+    }
   },
   computed: {
     answers() {
-      return this.question.incorrect_answers.concat(this.question.correct_answer)
-    }
+      const answers = this.question.incorrect_answers.concat(this.question.correct_answer)
+      answers.sort(() => Math.random() - 0.5);
+      return answers
+    },
   },
   methods: {
     submitAnswer() {
-      this.$emit('answer-submitted')
-      console.log('submitAnswer');
+      if(this.selected == this.question.correct_answer){
+        this.$emit('answer-submitted', true)
+        console.log('correcto');
+      } else {
+        this.$emit('answer-submitted', false)
+        console.log('incorrecto');
+      }
+    },
+    change() {
+      
+      console.log(this.selected);
     }
   }
-  
 }
 </script>
 

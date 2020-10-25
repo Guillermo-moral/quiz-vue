@@ -1,6 +1,6 @@
 <template>
   <h1>Quiz App</h1>
-  <ConfigGame v-if="isConfig" @config-submitted="fetchQuestions" />
+  <ConfigGame v-if="!isConfig" @config-submitted="fetchQuestions" />
   <Question
     v-if="isConfig"
     :question="currentQuestion"
@@ -24,7 +24,8 @@ export default {
       isConfig: false,
       questions: {},
       currentQuestion: {},
-      counterQuestions:0
+      counterQuestions: 0,
+      score: 0
     }
   },
   watch: {
@@ -35,16 +36,17 @@ export default {
       let url = `https://opentdb.com/api.php?amount=${config.numQuestions}&category=${config.category}&difficulty=${config.difficulty}&type=multiple`;
       axios.get(url).then(res => {
         this.questions = res.data.results
-        console.log(this.questions)
         this.isConfig = true
         this.currentQuestion = this.questions[this.counterQuestions]
         })
     },
-    nextAnswer() {
+    nextAnswer(response) {
+      if(response) {
+        this.score++
+        console.log(this.score);
+      }
       this.counterQuestions++
       this.currentQuestion = this.questions[this.counterQuestions]
-      console.log('checkAnswer');
-      console.log(this.counterQuestions);
     }
   },
 
