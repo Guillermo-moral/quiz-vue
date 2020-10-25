@@ -9,8 +9,7 @@
         <input type="radio" name="respuesta"
           :value="answer"
           :id="index"
-          v-model="selected"
-          @change="change">
+          v-model="selected">
         <label
           :for="index">
           {{ answer }}
@@ -38,8 +37,7 @@ export default {
   computed: {
     answers() {
       const answers = this.question.incorrect_answers.concat(this.question.correct_answer)
-      answers.sort(() => Math.random() - 0.5);
-      return answers
+      return answers.sort(() => Math.random() - 0.5);
     },
   },
   methods: {
@@ -51,10 +49,6 @@ export default {
         this.$emit('answer-submitted', false)
         console.log('incorrecto');
       }
-    },
-    change() {
-      
-      console.log(this.selected);
     }
   }
 }

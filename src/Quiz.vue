@@ -33,15 +33,15 @@ export default {
   },
   methods: {
     fetchQuestions(config) {
-      let url = `https://opentdb.com/api.php?amount=${config.numQuestions}&category=${config.category}&difficulty=${config.difficulty}&type=multiple`;
+      const url = `https://opentdb.com/api.php?amount=${config.numQuestions}&category=${config.category}&difficulty=${config.difficulty}&type=multiple`;
       axios.get(url).then(res => {
         this.questions = res.data.results
         this.isConfig = true
         this.currentQuestion = this.questions[this.counterQuestions]
         })
     },
-    nextAnswer(response) {
-      if(response) {
+    nextAnswer(answer) {
+      if(answer) {
         this.score++
         console.log(this.score);
       }
