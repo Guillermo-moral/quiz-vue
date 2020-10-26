@@ -42,13 +42,7 @@ export default {
   },
   methods: {
     submitAnswer() {
-      if(this.selected == this.question.correct_answer){
-        this.$emit('answer-submitted', true)
-        console.log('correcto');
-      } else {
-        this.$emit('answer-submitted', false)
-        console.log('incorrecto');
-      }
+      this.selected == this.question.correct_answer ? this.$emit('answer-submitted', true) : this.$emit('answer-submitted', false)
     }
   }
 }
