@@ -48,7 +48,11 @@ export default {
     async fetchQuestions(config) { 
       const url = `https://opentdb.com/api.php?amount=${config.numQuestions}&category=${config.category}&difficulty=${config.difficulty}&type=multiple`;
       await fetch(url).then(res => res.json())
-      .then(data => console.log(data))
+      .then(data => {
+        this.questions = data.results
+        this.isConfig = true
+        this.currentQuestion = this.questions[this.counterQuestions]
+      })
       // await axios.get(url)
       // .then(res => {
       //   console.log(res);
