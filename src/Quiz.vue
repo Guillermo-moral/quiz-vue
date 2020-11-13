@@ -18,7 +18,7 @@
 import ConfigGame from './components/ConfigGame.vue'
 import Question from './components/Question.vue'
 import Results from "./components/Results.vue";
-import axios from 'axios'
+//import axios from 'axios'
 
 export default {
   name: 'Quiz',
@@ -45,13 +45,17 @@ export default {
     }
   },
   methods: {
-    fetchQuestions(config) {
+    async fetchQuestions(config) { 
       const url = `https://opentdb.com/api.php?amount=${config.numQuestions}&category=${config.category}&difficulty=${config.difficulty}&type=multiple`;
-      axios.get(url).then(res => {
-        this.questions = res.data.results
-        this.isConfig = true
-        this.currentQuestion = this.questions[this.counterQuestions]
-        })
+      await fetch(url).then(res => res.json())
+      .then(data => console.log(data))
+      // await axios.get(url)
+      // .then(res => {
+      //   console.log(res);
+      //   this.questions = res.data.results
+      //   this.isConfig = true
+      //   this.currentQuestion = this.questions[this.counterQuestions]
+      //   })
     },
     nextAnswer(answer) {
       if(answer) {
