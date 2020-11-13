@@ -49,6 +49,9 @@ export default {
       const url = `https://opentdb.com/api.php?amount=${config.numQuestions}&category=${config.category}&difficulty=${config.difficulty}&type=multiple`;
       await fetch(url).then(res => res.json())
       .then(data => {
+        console.log(data);
+        let parse = JSON.parse(data)
+        console.log(parse);
         this.questions = data.results
         this.isConfig = true
         this.currentQuestion = this.questions[this.counterQuestions]
